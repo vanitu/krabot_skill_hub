@@ -1,0 +1,73 @@
+#!/bin/bash
+# Skill Hub Client - Main Entry Point
+
+set -e
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+LIB_DIR="$SCRIPT_DIR/lib"
+
+# Load common functions
+source "$LIB_DIR/common.sh"
+
+# Parse command
+COMMAND="${1:-help}"
+shift || true
+
+case "$COMMAND" in
+  search)
+    source "$LIB_DIR/commands/search.sh"
+    do_search "$@"
+    ;;
+  info)
+    source "$LIB_DIR/commands/info.sh"
+    do_info "$@"
+    ;;
+  install)
+    source "$LIB_DIR/commands/install.sh"
+    do_install "$@"
+    ;;
+  update)
+    source "$LIB_DIR/commands/update.sh"
+    do_update "$@"
+    ;;
+  remove|uninstall)
+    source "$LIB_DIR/commands/remove.sh"
+    do_remove "$@"
+    ;;
+  list|ls)
+    source "$LIB_DIR/commands/list.sh"
+    do_list "$@"
+    ;;
+  sync)
+    source "$LIB_DIR/commands/sync.sh"
+    do_sync "$@"
+    ;;
+  help|--help|-h|"")
+    cat << 'HELP'
+Skill Hub Client — управление скиллами Krabot
+
+Usage: hub <command> [options]
+
+Commands:
+  search <query>       Поиск скиллов (опционально: --tag <tag>)
+  info <skill>         Информация о скилле
+  install <skill>      Установить скилл (опционально: --version x.x.x)
+  update <skill>       Обновить скилл
+  remove <skill>       Удалить скилл
+  list                 Список установленных (--outdated для устаревших)
+  sync                 Обновить registry.json из хаба
+  help                 Показать эту справку
+
+Examples:
+  hub search weather
+  hub info system-monitor
+  hub install telegram-helper
+  hub list --outdated
+HELP
+    ;;
+  *)
+    echo "Unknown command: $COMMAND"
+    echo "Run 'hub help' for usage"
+    exit 1
+    ;;
+esac

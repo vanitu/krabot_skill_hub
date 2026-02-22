@@ -1,0 +1,16 @@
+{
+  "name": "weather",
+  "displayName": "Weather",
+  "description": "Current weather and forecasts via wttr.in (no API key required)",
+  "version": "1.0.0",
+  "author": "vanitu",
+  "tags": ["weather", "api", "utility", "wttr"],
+  "entry": "SKILL.md",
+  "minOpenclawVersion": "0.9.0",
+  "permissions": {
+    "filesystem": ["none"],
+    "network": true,
+    "exec": false,
+    "sensitiveData": false
+  }
+}

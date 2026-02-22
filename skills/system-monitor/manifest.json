@@ -1,0 +1,21 @@
+{
+  "name": "system-monitor",
+  "displayName": "System Monitor",
+  "description": "System monitoring for Mac/Linux - CPU, RAM, Disk, alerts",
+  "version": "1.0.0",
+  "author": "vanitu",
+  "tags": ["system", "monitoring", "alerts", "macos", "linux", "docker"],
+  "entry": "SKILL.md",
+  "minOpenclawVersion": "0.9.0",
+  "permissions": {
+    "filesystem": ["read"],
+    "network": true,
+    "exec": true,
+    "sensitiveData": false
+  },
+  "scripts": {
+    "status": "status.sh",
+    "monitor": "monitor.sh",
+    "report": "daily_report.sh"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "name": "skill-hub",
+  "displayName": "Skill Hub Client",
+  "description": "Package manager for Krabot skills — install, update, remove skills from private hub",
+  "version": "1.0.0",
+  "author": "vanitu",
+  "tags": ["hub", "package-manager", "skills", "cli"],
+  "entry": "SKILL.md",
+  "minOpenclawVersion": "0.9.0",
+  "permissions": {
+    "filesystem": ["read", "write"],
+    "network": true,
+    "exec": true,
+    "sensitiveData": false
+  },
+  "bin": {
+    "hub": "bin/hub"
+  }
+}

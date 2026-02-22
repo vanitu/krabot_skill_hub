@@ -1,0 +1,8 @@
+{
+  "hub": {
+    "url": "https://github.com/vanitu/krabot_skill_hub",
+    "branch": "main",
+    "localCache": "~/krabot/skills/.hub-cache"
+  },
+  "installed": {}
+}

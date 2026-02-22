@@ -1,0 +1,96 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://krabot.ai/schemas/manifest-v1.schema.json",
+  "title": "Krabot Skill Manifest v1",
+  "description": "Schema for skill manifest.json files",
+  "type": "object",
+  "required": ["name", "version", "author", "entry"],
+  "properties": {
+    "name": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$",
+      "description": "Unique skill identifier (kebab-case)"
+    },
+    "displayName": {
+      "type": "string",
+      "description": "Human-readable name"
+    },
+    "description": {
+      "type": "string",
+      "description": "Short description of what the skill does"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Semantic version"
+    },
+    "author": {
+      "type": "string",
+      "description": "Author identifier (e.g., GitHub username)"
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Tags for categorization"
+    },
+    "entry": {
+      "type": "string",
+      "default": "SKILL.md",
+      "description": "Entry point file (usually SKILL.md)"
+    },
+    "minOpenclawVersion": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Minimum OpenClaw version required"
+    },
+    "permissions": {
+      "type": "object",
+      "properties": {
+        "filesystem": {
+          "type": "array",
+          "items": {
+            "enum": ["none", "read", "write"]
+          },
+          "default": ["none"]
+        },
+        "network": {
+          "type": "boolean",
+          "default": false
+        },
+        "exec": {
+          "type": "boolean",
+          "default": false
+        },
+        "sensitiveData": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "sandbox": {
+      "type": "object",
+      "properties": {
+        "allowedPaths": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "deniedPaths": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name"],
+        "properties": {
+          "name": { "type": "string" },
+          "version": { "type": "string" },
+          "optional": { "type": "boolean", "default": false }
+        }
+      }
+    }
+  }
+}

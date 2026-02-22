@@ -1,0 +1,64 @@
+{
+  "version": "1.0.0",
+  "updated": "2025-01-20T12:00:00Z",
+  "schema": "schemas/manifest-v1.schema.json",
+  "repository": {
+    "name": "Krabot Skill Hub",
+    "description": "Private skill repository for Krabot agents",
+    "url": "https://github.com/vanitu/krabot_skill_hub",
+    "private": true
+  },
+  "skills": {
+    "weather": {
+      "name": "weather",
+      "displayName": "Weather",
+      "description": "Current weather and forecasts via wttr.in",
+      "version": "1.0.0",
+      "author": "vanitu",
+      "tags": ["weather", "api", "utility"],
+      "path": "skills/weather",
+      "entry": "SKILL.md",
+      "minOpenclawVersion": "0.9.0",
+      "permissions": {
+        "filesystem": ["none"],
+        "network": true,
+        "exec": false,
+        "sensitiveData": false
+      }
+    },
+    "system-monitor": {
+      "name": "system-monitor",
+      "displayName": "System Monitor",
+      "description": "System monitoring for Mac/Linux - CPU, RAM, Disk, alerts",
+      "version": "1.0.0",
+      "author": "vanitu",
+      "tags": ["system", "monitoring", "alerts", "macos", "linux"],
+      "path": "skills/system-monitor",
+      "entry": "SKILL.md",
+      "minOpenclawVersion": "0.9.0",
+      "permissions": {
+        "filesystem": ["read"],
+        "network": true,
+        "exec": true,
+        "sensitiveData": false
+      }
+    },
+    "telegram-helper": {
+      "name": "telegram-helper",
+      "displayName": "Telegram Helper",
+      "description": "Telegram Bot API helper with inline keyboards",
+      "version": "1.0.0",
+      "author": "vanitu",
+      "tags": ["telegram", "messaging", "ui"],
+      "path": "skills/telegram-helper",
+      "entry": "SKILL.md",
+      "minOpenclawVersion": "0.9.0",
+      "permissions": {
+        "filesystem": ["read", "write"],
+        "network": true,
+        "exec": true,
+        "sensitiveData": true
+      }
+    }
+  }
+}
