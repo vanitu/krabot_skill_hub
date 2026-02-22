@@ -1,5 +1,20 @@
 #!/bin/bash
 # Common functions for Skill Hub Client
+# Universal version - works from any location
+
+# Get the directory where skill-hub is installed
+get_hub_root() {
+    # If SKILL_HUB_ROOT is set externally, use it
+    if [[ -n "$SKILL_HUB_ROOT" ]]; then
+        echo "$SKILL_HUB_ROOT"
+        return
+    fi
+    
+    # Otherwise, auto-detect from this script's location
+    # common.sh is in lib/, so hub root is two levels up
+    local script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+    echo "$(dirname "$script_dir")"
+}
 
 # Expand tilde in paths
 expand_path() {
@@ -7,10 +22,10 @@ expand_path() {
     echo "${path/#\~/$HOME}"
 }
 
-# Get config directory
+# Get config directory (now just hub root)
 get_config_dir() {
-    local dir="${SKILL_HUB_CONFIG:-~/krabot/skills/skill-hub}"
-    expand_path "$dir"
+    local hub_root=$(get_hub_root)
+    echo "$hub_root"
 }
 
 # Get config file path
@@ -20,8 +35,8 @@ get_config_file() {
 
 # Get cache directory
 get_cache_dir() {
-    local dir="${SKILL_HUB_CACHE:-~/krabot/skills/.hub-cache}"
-    expand_path "$dir"
+    local hub_root=$(get_hub_root)
+    echo "$hub_root/.cache"
 }
 
 # Get registry path
@@ -29,10 +44,17 @@ get_registry_path() {
     echo "$(get_cache_dir)/registry.json"
 }
 
-# Get skills install path
+# Get skills install path (parent of hub root by default)
 get_skills_dir() {
-    local dir="${SKILL_HUB_SKILLS:-~/krabot/skills}"
-    expand_path "$dir"
+    # If SKILL_HUB_SKILLS is set, use it
+    if [[ -n "$SKILL_HUB_SKILLS" ]]; then
+        expand_path "$SKILL_HUB_SKILLS"
+        return
+    fi
+    
+    # Otherwise, use parent of hub root
+    local hub_root=$(get_hub_root)
+    dirname "$hub_root"
 }
 
 # Read config value (using Python for JSON parsing)

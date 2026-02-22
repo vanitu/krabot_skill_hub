@@ -1,102 +1,105 @@
 # Krabot Skill Hub 🦀
 
-Private skill repository for Krabot agents — централизованное хранилище скиллов с версионированием и управлением зависимостями.
+Public skill repository for OpenClaw agents — centralized skill registry with universal package manager.
 
-## Структура
+## Universal Installation (Any Agent)
 
-```
-krabot_skill_hub/
-├── registry.json           # Индекс всех скиллов (сердце системы)
-├── README.md              # Этот файл
-├── schemas/               # JSON Schema для валидации
-│   └── manifest-v1.schema.json
-├── skills/                # Хранилище скиллов
-│   ├── weather/
-│   ├── system-monitor/
-│   └── telegram-helper/
-└── client/                # Клиентский скилл для агентов
-    └── skill-hub/
-```
+### One-liner install:
 
-## Быстрый старт
-
-### Для пользователей агентов
-
-Установить клиентский скилл:
 ```bash
-# Ручная установка (до создания hub install)
-cp -r client/skill-hub ~/krabot/skills/
+# Create skill-hub directory anywhere (e.g., in your skills folder)
+mkdir -p ~/skills/skill-hub/{bin,lib/commands}
+cd ~/skills/skill-hub
+
+# Download client files
+curl -fsSL https://raw.githubusercontent.com/vanitu/krabot_skill_hub/main/client/skill-hub/bin/hub -o bin/hub && chmod +x bin/hub
+curl -fsSL https://raw.githubusercontent.com/vanitu/krabot_skill_hub/main/client/skill-hub/lib/common.sh -o lib/common.sh
+
+for cmd in sync search info install update remove list; do
+  curl -fsSL "https://raw.githubusercontent.com/vanitu/krabot_skill_hub/main/client/skill-hub/lib/commands/${cmd}.sh" -o "lib/commands/${cmd}.sh"
+done
+
+# Create config
+echo '{"hub":{"url":"https://github.com/vanitu/krabot_skill_hub","branch":"main"},"installed":{}}' > config.json
+
+echo "✓ Skill Hub installed!"
 ```
 
-Использование:
-```
-hub search weather        # Поиск скиллов
-hub info weather          # Информация о скилле
-hub install weather       # Установить скилл
-hub update weather        # Обновить скилл
-hub remove weather        # Удалить скилл
-hub list                  # Список установленных
-hub sync                  # Обновить registry.json
-```
+### Or step by step:
 
-### Для авторов скиллов
+```bash
+# 1. Choose location (anywhere)
+INSTALL_DIR="$HOME/skills/skill-hub"
+mkdir -p "$INSTALL_DIR"
 
-1. Создайте директорию в `skills/<your-skill>/`
-2. Добавьте `SKILL.md` — документация для агента
-3. Добавьте `manifest.json` — метаданные
-4. Обновите `registry.json` в корне
-5. Отправьте PR
+# 2. Download client
+curl -fsSL https://github.com/vanitu/krabot_skill_hub/archive/refs/heads/main.tar.gz | \
+  tar -xz --strip=3 -C "$INSTALL_DIR" "krabot_skill_hub-main/client/skill-hub/"
 
-## Формат скилла
-
-Минимальная структура:
-```
-skills/example/
-├── SKILL.md          # Обязательно — документация для агента
-├── manifest.json     # Обязательно — метаданные
-└── scripts/          # Опционально — скрипты
-    └── run.sh
+# 3. Use it
+"$INSTALL_DIR/bin/hub" sync
+"$INSTALL_DIR/bin/hub" search
 ```
 
-### manifest.json
+## Usage
 
-```json
-{
-  "name": "example",
-  "displayName": "Example Skill",
-  "description": "Does example things",
-  "version": "1.0.0",
-  "author": "your-name",
-  "tags": ["utility", "example"],
-  "entry": "SKILL.md",
-  "minOpenclawVersion": "0.9.0",
-  "permissions": {
-    "filesystem": ["read"],
-    "network": true,
-    "exec": false,
-    "sensitiveData": false
-  }
-}
+```bash
+# Add to PATH (optional)
+export PATH="/path/to/skill-hub/bin:$PATH"
+
+# Or use full path
+~/skills/skill-hub/bin/hub sync
+~/skills/skill-hub/bin/hub search
+~/skills/skill-hub/bin/hub install weather
 ```
 
-## Permissions
+### Commands
 
-Каждый скилл декларирует необходимые permissions:
+| Command | Description |
+|---------|-------------|
+| `hub sync` | Update registry from hub |
+| `hub search [query]` | Search available skills |
+| `hub info <skill>` | Show skill details |
+| `hub install <skill>` | Install a skill |
+| `hub update <skill>` | Update a skill |
+| `hub remove <skill>` | Remove a skill |
+| `hub list [--outdated]` | List installed skills |
 
-- `filesystem`: `["none"]`, `["read"]`, `["read", "write"]`
-- `network`: `true`/`false` — HTTP запросы
-- `exec`: `true`/`false` — shell команды
-- `sensitiveData`: `true`/`false` — доступ к secrets/ключам
+## Environment Variables
 
-При установке скилла с опасными permissions (`exec: true`, `sensitiveData: true`) — запрашивается подтверждение.
+| Variable | Description | Default |
+|----------|-------------|---------|
+| `SKILL_HUB_ROOT` | Path to skill-hub installation | Auto-detected |
+| `SKILL_HUB_SKILLS` | Where to install skills | Parent of hub root |
 
-## Roadmap
+## Structure
 
-- [x] Фаза 1: MVP — Git-based хаб, базовый клиент
-- [ ] Фаза 2: Версионирование, update/remove, кэширование
-- [ ] Фаза 3: Permissions, sandbox, подпись пакетов
-- [ ] Фаза 4: HTTP API, CDN, метрики
+```
+skill-hub/              # Can be anywhere
+├── bin/hub            # CLI entry point
+├── lib/
+│   ├── common.sh      # Shared functions
+│   └── commands/      # Command implementations
+├── .cache/            # Registry cache
+│   └── registry.json
+└── config.json        # Local config
+```
+
+Skills are installed to the parent directory by default:
+```
+skills/
+├── skill-hub/         # This client
+├── weather/           # Installed skill
+├── system-monitor/    # Installed skill
+└── ...
+```
+
+## Adding Skills to Hub
+
+1. Create `skills/your-skill/SKILL.md` and `manifest.json`
+2. Update `registry.json`
+3. Send PR or push to your fork
 
 ## License
 
-Private — for Krabot agents only 🔒
+MIT — free for any OpenClaw agent 🔓
