@@ -59,6 +59,23 @@
         "exec": true,
         "sensitiveData": true
       }
+    },
+    "ozon-reviews-workflow": {
+      "name": "ozon-reviews-workflow",
+      "displayName": "Ozon Reviews Workflow",
+      "description": "Работа с отзывами покупателей на товары Ozon. Получение списка отзывов, фильтрация по рейтингу/дате, чтение комментариев, ответы на отзывы, обновление статуса отзывов",
+      "version": "1.0.0",
+      "author": "vanitu",
+      "tags": ["ozon", "reviews", "marketplace", "e-commerce", "ai-reply"],
+      "path": "skills/ozon-reviews-workflow",
+      "entry": "SKILL.md",
+      "minOpenclawVersion": "0.9.0",
+      "permissions": {
+        "filesystem": ["read", "write"],
+        "network": true,
+        "exec": true,
+        "sensitiveData": true
+      }
     }
   }
 }
