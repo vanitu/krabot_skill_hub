@@ -1,0 +1,34 @@
+{
+  "name": "ozon-reviews-workflow",
+  "displayName": "Ozon Reviews Workflow",
+  "description": "Работа с отзывами покупателей на товары Ozon. Получение списка отзывов, фильтрация по рейтингу/дате, чтение комментариев, ответы на отзывы, обновление статуса отзывов. Использовать когда нужно мониторить, анализировать или отвечать на отзывы покупателей.",
+  "version": "1.0.0",
+  "author": "vanitu",
+  "tags": ["ozon", "reviews", "marketplace", "e-commerce", "ai-reply"],
+  "entry": "SKILL.md",
+  "minOpenclawVersion": "0.9.0",
+  "permissions": {
+    "filesystem": ["read", "write"],
+    "network": true,
+    "exec": true,
+    "sensitiveData": true
+  },
+  "dependencies": [],
+  "config": {
+    "required": true,
+    "env": [
+      {
+        "name": "OZON_CLIENT_ID",
+        "description": "Client ID из личного кабинета Ozon Seller",
+        "required": true,
+        "sensitive": false
+      },
+      {
+        "name": "OZON_API_KEY",
+        "description": "API Key из личного кабинета Ozon Seller",
+        "required": true,
+        "sensitive": true
+      }
+    ]
+  }
+}
