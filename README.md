@@ -58,12 +58,14 @@ export PATH="/path/to/skill-hub/bin:$PATH"
 | Command | Description |
 |---------|-------------|
 | `hub sync` | Update registry from hub |
+| `hub available` | List all skills from hub (auto-syncs) |
 | `hub search [query]` | Search available skills |
 | `hub info <skill>` | Show skill details |
 | `hub install <skill>` | Install a skill |
 | `hub update <skill>` | Update a skill |
 | `hub remove <skill>` | Remove a skill |
 | `hub list [--outdated]` | List installed skills |
+| `hub available [--no-sync]` | List all available skills from hub |
 
 ## Environment Variables
 

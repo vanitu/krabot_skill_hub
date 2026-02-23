@@ -42,6 +42,10 @@ case "$COMMAND" in
     source "$LIB_DIR/commands/sync.sh"
     do_sync "$@"
     ;;
+  available)
+    source "$LIB_DIR/commands/available.sh"
+    do_available "$@"
+    ;;
   help|--help|-h|"")
     cat << 'HELP'
 Skill Hub Client — управление скиллами Krabot
@@ -55,6 +59,7 @@ Commands:
   update <skill>       Обновить скилл
   remove <skill>       Удалить скилл
   list                 Список установленных (--outdated для устаревших)
+  available            Список всех скиллов из хаба (синхронизирует автоматически)
   sync                 Обновить registry.json из хаба
   help                 Показать эту справку
 
