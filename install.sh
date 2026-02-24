@@ -81,6 +81,11 @@ for cmd in sync search info install update remove list; do
     curl -fsSL "$HUB_URL/raw/main/client/skill-hub/lib/commands/${cmd}.sh" -o "$HUB_ROOT/lib/commands/${cmd}.sh"
 done
 
+# Download metadata files
+curl -fsSL "$HUB_URL/raw/main/client/skill-hub/manifest.json" -o "$HUB_ROOT/manifest.json"
+curl -fsSL "$HUB_URL/raw/main/client/skill-hub/SKILL.md" -o "$HUB_ROOT/SKILL.md"
+curl -fsSL "$HUB_URL/raw/main/client/skill-hub/config.example.json" -o "$HUB_ROOT/config.example.json"
+
 # Create config
 cat > "$HUB_ROOT/config.json" << CONFIG
 {
